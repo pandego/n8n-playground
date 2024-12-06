@@ -1,0 +1,25 @@
+services:
+  n8n:
+    image: n8nio/n8n:${N8N_VERSION}
+    container_name: n8n
+    restart: always
+    ports:
+      - ${N8N_PORT}:${N8N_PORT}
+    environment:
+      - N8N_HOST=${N8N_HOST}
+      - N8N_PORT=${N8N_PORT}
+      - WEBHOOK_URL=${WEBHOOK_URL}
+      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
+      - TZ=${TZ}
+      - N8N_SECURE_COOKIE=false
+    volumes:
+      - ~/.n8n:/home/node/.n8n
+    # command: "n8n start --tunnel"  # Uncomment this line to use webhooks for trigger nodes
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${N8N_PORT}/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    
+# volumes:
+#   n8n_data:

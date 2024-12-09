@@ -8,12 +8,15 @@ services:
     environment:
       - N8N_HOST=${N8N_HOST}
       - N8N_PORT=${N8N_PORT}
+      - N8N_PROTOCOL=${N8N_PROTOCOL}
+      - N8N_SECURE_COOKIE=${N8N_SECURE_COOKIE}
       - WEBHOOK_URL=${WEBHOOK_URL}
       - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
       - TZ=${TZ}
-      - N8N_SECURE_COOKIE=false
     volumes:
-      - ~/.n8n:/home/node/.n8n
+      # - ~/.n8n:/home/node/.n8n
+      - ./node/.n8n:/home/node/.n8n
+      - ./node:/home/node/
     # command: "n8n start --tunnel"  # Uncomment this line to use webhooks for trigger nodes
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:${N8N_PORT}/"]
